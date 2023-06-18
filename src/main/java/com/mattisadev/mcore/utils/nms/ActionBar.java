@@ -16,6 +16,8 @@ import java.lang.invoke.MethodType;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
+import static com.mattisadev.mcore.utils.nms.ReflectionUtils.*;
+
 /**
  * A reflection API for action bars in Minecraft.
  * Fully optimized - Supports 1.8.8+ and above.
@@ -70,9 +72,9 @@ public final class ActionBar {
         if (!USE_SPIGOT_API) {
             // Supporting 1.12+ is not necessary, the package guards are just for readability.
             MethodHandles.Lookup lookup = MethodHandles.lookup();
-            Class<?> packetPlayOutChatClass = ReflectionUtils.getNMSClass("network.protocol.game", "PacketPlayOutChat");
-            Class<?> iChatBaseComponentClass = ReflectionUtils.getNMSClass("network.chat", "IChatBaseComponent");
-            Class<?> ChatSerializerClass = ReflectionUtils.getNMSClass("network.chat", "IChatBaseComponent$ChatSerializer");
+            Class<?> packetPlayOutChatClass = getNMSClass("network.protocol.game", "PacketPlayOutChat");
+            Class<?> iChatBaseComponentClass = getNMSClass("network.chat", "IChatBaseComponent");
+            Class<?> ChatSerializerClass = getNMSClass("network.chat", "IChatBaseComponent$ChatSerializer");
 
             try {
                 // JSON Message Builder
@@ -81,7 +83,7 @@ public final class ActionBar {
 
                 // Game Info Message Type
                 Class<?> chatMessageTypeClass = Class.forName(
-                        ReflectionUtils.NMS + ReflectionUtils.v(17, "network.chat").orElse("") + "ChatMessageType"
+                        NMS_PACKAGE + v(17, "network.chat").orElse("") + "ChatMessageType"
                 );
 
                 // Packet Constructor
@@ -114,7 +116,8 @@ public final class ActionBar {
         PACKET_PLAY_OUT_CHAT = packet;
     }
 
-    private ActionBar() {}
+    private ActionBar() {
+    }
 
     /**
      * Sends an action bar to a player.
@@ -130,7 +133,6 @@ public final class ActionBar {
      *
      * @param player  the player to send the action bar to.
      * @param message the message to send.
-     *
      * @see #sendActionBar(Plugin, Player, String, long)
      * @since 3.2.0
      */
@@ -157,7 +159,6 @@ public final class ActionBar {
      *
      * @param player  the player to send the action bar to.
      * @param message the message to send.
-     *
      * @see #sendActionBar(Plugin, Player, String, long)
      * @since 1.0.0
      */
@@ -175,17 +176,45 @@ public final class ActionBar {
             // We need to escape both \ and " to avoid all possiblities of breaking JSON syntax and causing an exception.
             Object component = CHAT_COMPONENT_TEXT.invoke("{\"text\":\"" + message.replace("\\", "\\\\").replace("\"", "\\\"") + "\"}");
             Object packet = PACKET_PLAY_OUT_CHAT.invoke(component, CHAT_MESSAGE_TYPE);
-            ReflectionUtils.sendPacket(player, packet);
+            sendPacket(player, packet);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
+    }
+
+
+    /**
+     * Sends an action bar to a player for a specific amount of ticks.
+     *
+     * @param plugin   the plugin handling the message scheduler.
+     * @param player   the player to send the action bar to.
+     * @param message  the message to send.
+     * @param duration the duration to keep the action bar in ticks.
+     * @see #sendActionBarWhile(Plugin, Player, String, Callable)
+     * @since 1.0.0
+     */
+    public static void sendActionBar(@Nonnull Plugin plugin, @Nonnull Player player, @Nullable String message, long duration) {
+        if (duration < 1) return;
+        Objects.requireNonNull(plugin, "Cannot send consistent actionbar with null plugin");
+        Objects.requireNonNull(player, "Cannot send actionbar to null player");
+        Objects.requireNonNull(message, "Cannot send null actionbar message");
+
+        new BukkitRunnable() {
+            long repeater = duration;
+
+            @Override
+            public void run() {
+                sendActionBar(player, message);
+                repeater -= 40L;
+                if (repeater - 40L < -20L) cancel();
+            }
+        }.runTaskTimerAsynchronously(plugin, 0L, 40L);
     }
 
     /**
      * Sends an action bar all the online players.
      *
      * @param message the message to send.
-     *
      * @see #sendActionBar(Player, String)
      * @since 1.0.0
      */
@@ -197,7 +226,6 @@ public final class ActionBar {
      * Clear the action bar by sending an empty message.
      *
      * @param player the player to send the action bar to.
-     *
      * @see #sendActionBar(Player, String)
      * @since 2.1.1
      */
@@ -226,7 +254,6 @@ public final class ActionBar {
      * @param player   the player to send the action bar to.
      * @param message  the message to send. The message will not be updated.
      * @param callable the condition for the action bar to continue.
-     *
      * @see #sendActionBar(Plugin, Player, String, long)
      * @since 1.0.0
      */
@@ -258,7 +285,6 @@ public final class ActionBar {
      * @param player   the player to send the action bar to.
      * @param message  the message to send. The message will be updated.
      * @param callable the condition for the action bar to continue.
-     *
      * @see #sendActionBarWhile(Plugin, Player, String, Callable)
      * @since 1.0.0
      */
@@ -277,35 +303,6 @@ public final class ActionBar {
                 }
             }
             // Re-sends the messages every 2 seconds so it doesn't go away from the player's screen.
-        }.runTaskTimerAsynchronously(plugin, 0L, 40L);
-    }
-
-    /**
-     * Sends an action bar to a player for a specific amount of ticks.
-     *
-     * @param plugin   the plugin handling the message scheduler.
-     * @param player   the player to send the action bar to.
-     * @param message  the message to send.
-     * @param duration the duration to keep the action bar in ticks.
-     *
-     * @see #sendActionBarWhile(Plugin, Player, String, Callable)
-     * @since 1.0.0
-     */
-    public static void sendActionBar(@Nonnull Plugin plugin, @Nonnull Player player, @Nullable String message, long duration) {
-        if (duration < 1) return;
-        Objects.requireNonNull(plugin, "Cannot send consistent actionbar with null plugin");
-        Objects.requireNonNull(player, "Cannot send actionbar to null player");
-        Objects.requireNonNull(message, "Cannot send null actionbar message");
-
-        new BukkitRunnable() {
-            long repeater = duration;
-
-            @Override
-            public void run() {
-                sendActionBar(player, message);
-                repeater -= 40L;
-                if (repeater - 40L < -20L) cancel();
-            }
         }.runTaskTimerAsynchronously(plugin, 0L, 40L);
     }
 }
