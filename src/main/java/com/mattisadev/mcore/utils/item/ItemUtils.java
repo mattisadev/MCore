@@ -49,12 +49,12 @@ public class ItemUtils {
             ItemStack item = (ItemStack) dataInput.readObject();
             dataInput.close();
             return item;
-        } catch (ClassNotFoundException e) {
-            throw new IOException("Unable to decode class type.", e);
+        } catch (IOException | IllegalArgumentException | ClassNotFoundException e) {
+            throw new IOException("Error while converting from Base64 to ItemStack", e);
         }
     }
 
-    public static String itemStackToBase64(ItemStack item) throws IllegalStateException {
+    public static String itemStackToBase64(ItemStack item) throws IOException {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
@@ -62,7 +62,7 @@ public class ItemUtils {
             dataOutput.close();
             return Base64Coder.encodeLines(outputStream.toByteArray());
         } catch (Exception e) {
-            throw new IllegalStateException("Unable to save item stacks.", e);
+            throw new IOException("Error while converting from Base64 to ItemStack", e);
         }
     }
 }
