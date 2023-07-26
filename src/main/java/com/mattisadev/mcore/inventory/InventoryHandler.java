@@ -1,4 +1,4 @@
-package com.mattisadev.mcore.highskies;
+package com.mattisadev.mcore.inventory;
 
 import com.mattisadev.mcore.inventory.GUI;
 import org.bukkit.event.EventHandler;

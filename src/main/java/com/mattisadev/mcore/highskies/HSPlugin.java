@@ -1,6 +1,7 @@
 package com.mattisadev.mcore.highskies;
 
 import com.mattisadev.mcore.configuration.ConfigManager;
+import com.mattisadev.mcore.inventory.InventoryHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
