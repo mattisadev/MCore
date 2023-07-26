@@ -1,11 +1,12 @@
 package com.mattisadev.mcore.utils;
 
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Nullable;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
+
+import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ColorUtils {
     private static final Map<String, Color> COLOR_NAMES = new HashMap<>();

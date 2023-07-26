@@ -1,4 +1,4 @@
-package com.mattisadev.mcore.commands;
+package com.mattisadev.mcore.highskies;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

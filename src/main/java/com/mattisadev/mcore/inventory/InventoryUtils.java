@@ -1,4 +1,4 @@
-package com.mattisadev.mcore.utils;
+package com.mattisadev.mcore.inventory;
 
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;

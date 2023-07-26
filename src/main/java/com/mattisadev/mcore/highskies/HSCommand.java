@@ -1,6 +1,5 @@
-package com.mattisadev.mcore.commands;
+package com.mattisadev.mcore.highskies;
 
-import com.mattisadev.mcore.core.HSPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

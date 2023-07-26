@@ -1,4 +1,4 @@
-package com.mattisadev.mcore.utils;
+package com.mattisadev.mcore.data;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.bukkit.Bukkit;

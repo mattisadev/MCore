@@ -1,14 +1,10 @@
 package com.mattisadev.mcore.utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+
+import java.util.*;
 
 /**
  * This class is a region/cuboid from one location to another. It can be used for blocks protection and things like WorldEdit.

@@ -1,6 +1,7 @@
-package com.mattisadev.mcore.core;
+package com.mattisadev.mcore.highskies;
 
 import com.mattisadev.mcore.configuration.ConfigManager;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -18,6 +19,11 @@ public abstract class HSPlugin extends JavaPlugin {
     @Override
     public final void onEnable() {
         loadConfigs(getConfigFileNames());
+
+        if (isUsingInventories()) {
+            Bukkit.getPluginManager().registerEvents(new InventoryHandler(), this);
+        }
+
         enable();
     }
 
@@ -38,7 +44,7 @@ public abstract class HSPlugin extends JavaPlugin {
     public abstract void disable();
 
     public abstract void reload();
-
+    protected abstract boolean isUsingInventories();
     protected abstract @Nonnull Set<String> getConfigFileNames();
 
     private void loadConfigs(@Nonnull Set<String> fileNames) {

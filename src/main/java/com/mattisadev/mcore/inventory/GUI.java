@@ -8,11 +8,11 @@ import org.bukkit.inventory.InventoryHolder;
 
 public interface GUI extends InventoryHolder {
 
-    void onInventoryClick(InventoryClickEvent paramInventoryClickEvent);
+    void onInventoryClick(InventoryClickEvent e);
 
-    void onInventoryOpen(InventoryOpenEvent paramInventoryOpenEvent);
+    void onInventoryOpen(InventoryOpenEvent e);
 
-    void onInventoryClose(InventoryCloseEvent paramInventoryCloseEvent);
+    void onInventoryClose(InventoryCloseEvent e);
 
-    void addContent(Inventory paramInventory);
+    void addContent(Inventory inv);
 }
