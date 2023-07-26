@@ -1,3 +1,4 @@
+com\mattisadev\mcore\inventory\InventoryHandler.class
 com\mattisadev\mcore\utils\Cuboid.class
 com\mattisadev\mcore\utils\nms\ActionBar$3.class
 com\mattisadev\mcore\utils\SoundUtils.class
@@ -12,7 +13,6 @@ com\mattisadev\mcore\utils\FileUtils.class
 com\mattisadev\mcore\compatibility\XMaterial$Data.class
 com\mattisadev\mcore\utils\nms\ReflectionUtils$CallableVersionHandler.class
 com\mattisadev\mcore\utils\nms\ActionBar$2.class
-com\mattisadev\mcore\highskies\InventoryHandler.class
 com\mattisadev\mcore\configuration\ConfigManager.class
 com\mattisadev\mcore\utils\ColorUtils.class
 com\mattisadev\mcore\compatibility\XPotion$Effect.class
