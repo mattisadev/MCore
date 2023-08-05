@@ -4,6 +4,7 @@ import com.mattisadev.mcore.configuration.ConfigManager;
 import com.mattisadev.mcore.inventory.InventoryHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -11,10 +12,10 @@ import javax.annotation.Nonnull;
 import java.util.Set;
 
 public abstract class HSPlugin extends JavaPlugin {
-    protected final ConfigManager CONFIG_MANAGER;
+    protected final ConfigManager configManager;
 
     public HSPlugin() {
-        this.CONFIG_MANAGER = new ConfigManager(this);
+        this.configManager = new ConfigManager(this);
     }
 
     @Override
@@ -34,8 +35,8 @@ public abstract class HSPlugin extends JavaPlugin {
     }
 
     public final void onReload() {
-        this.CONFIG_MANAGER.reload("config.yml");
-        this.CONFIG_MANAGER.reload("messages.yml");
+        this.configManager.reload("config.yml");
+        this.configManager.reload("messages.yml");
 
         reload();
     }
@@ -45,7 +46,9 @@ public abstract class HSPlugin extends JavaPlugin {
     public abstract void disable();
 
     public abstract void reload();
+
     protected abstract boolean isUsingInventories();
+
     protected abstract @Nonnull Set<String> getConfigFileNames();
 
     private void loadConfigs(@Nonnull Set<String> fileNames) {
@@ -69,6 +72,10 @@ public abstract class HSPlugin extends JavaPlugin {
     }
 
     public final ConfigManager getConfigManager() {
-        return this.CONFIG_MANAGER;
+        return this.configManager;
+    }
+
+    protected void register(Listener handler) {
+        Bukkit.getPluginManager().registerEvents(handler, this);
     }
 }
