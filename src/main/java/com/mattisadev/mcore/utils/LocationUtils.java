@@ -7,6 +7,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.util.Objects;
 import java.util.UUID;
 
+@Deprecated(forRemoval = true, since = "TextUtils.(de)serializeLocation")
 public class LocationUtils {
     /**
      * Serializes a location of a block
