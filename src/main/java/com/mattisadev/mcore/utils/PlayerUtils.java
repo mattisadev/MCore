@@ -29,16 +29,20 @@ public class PlayerUtils {
 
         Map<Integer, ItemStack> leftover = player.getInventory().addItem(item);
         if (!leftover.isEmpty()) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-            leftover.values().stream().forEach(it -> player.getWorld().dropItemNaturally(player.getLocation(), it));
+            if (message != null && !message.isEmpty())
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+
+            leftover.values().forEach(it -> player.getWorld().dropItemNaturally(player.getLocation(), it));
         }
     }
 
     public static ItemStack getHeldItem(Player player) {
-        return ServerVersion.isServerVersionAbove(ServerVersion.V1_8) ? player.getInventory().getItemInMainHand() : player.getInventory().getItemInHand();
+        return ServerVersion.isServerVersionAbove(ServerVersion.V1_8) ? player.getInventory().getItemInMainHand() :
+                player.getInventory().getItemInHand();
     }
 
     public static ItemStack getOffHeldItem(Player player) {
-        return ServerVersion.isServerVersionAbove(ServerVersion.V1_8) ? player.getInventory().getItemInOffHand() : player.getInventory().getItemInHand();
+        return ServerVersion.isServerVersionAbove(ServerVersion.V1_8) ? player.getInventory().getItemInOffHand() :
+                player.getInventory().getItemInHand();
     }
 }

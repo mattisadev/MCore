@@ -1,6 +1,6 @@
 package com.mattisadev.mcore.utils;
 
-import jdk.internal.joptsimple.internal.Strings;
+import com.google.common.base.Strings;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Color;
 
