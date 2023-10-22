@@ -104,6 +104,13 @@
             </plugin>
         </plugins>
     </build>
+    <distributionManagement>
+        <repository>
+            <id>MCore</id>
+            <name>GitHub mattisadev Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/mattisadev/MCore</url>
+        </repository>
+    </distributionManagement>
     <repositories>
         <repository>
             <id>spigot-repo</id>
