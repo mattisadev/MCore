@@ -104,14 +104,11 @@
             </plugin>
         </plugins>
     </build>
-    <distributionManagement>
-        <repository>
-            <id>pmd-PersonalMinecraftDevelopment</id>
-            <name>pmd-PersonalMinecraftDevelopment</name>
-            <url>https://pmd-578297432161.d.codeartifact.us-east-2.amazonaws.com/maven/PersonalMinecraftDevelopment/</url>
-        </repository>
-    </distributionManagement>
     <repositories>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
